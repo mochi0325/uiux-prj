@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>お問い合わせ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+ 
+
+  <div class="header">
+  <div class="back-button" onclick="location.href='settings.html'">←</div>
+  <span data-i18n="contactFormTitle">お問い合わせ</span>
+</div>
+
+<div class="main">
+  <form id="contactForm">
+    <label for="name" data-i18n="nameLabel">お名前</label>
+    <input type="text" id="name" name="name" data-i18n-placeholder="nameLabel" placeholder="お名前">
+    <div class="error" id="nameError"></div>
+
+    <label for="email" data-i18n="emailLabel">メールアドレス</label>
+    <input type="email" id="email" name="email" data-i18n-placeholder="emailLabel" placeholder="メールアドレス">
+    <div class="error" id="emailError"></div>
+
+    <label for="message" data-i18n="messageLabel">お問い合わせ内容</label>
+    <textarea id="message" name="message" data-i18n-placeholder="messageLabel" placeholder="お問い合わせ内容"></textarea>
+    <div class="error" id="messageError"></div>
+
+    <button type="submit" class="submit-btn" id="submitButton" data-i18n="submitButton">送信する</button>
+    <div class="success-message" id="successMessage" style="display:none;" data-i18n="successMessage">
+      お問い合わせありがとうございました！
+    </div>
+  </form>
+</div>
+
+<script src="lang.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const lang = getCurrentLang();
+    applyTranslation(lang);
+  });
+
+  const translationsForErrors = {
+    ja: {
+      nameRequired: "お名前を入力してください",
+      emailRequired: "メールアドレスを入力してください",
+      emailInvalid: "有効なメールアドレスを入力してください",
+      messageRequired: "お問い合わせ内容を入力してください"
+    },
+    en: {
+      nameRequired: "Please enter your name",
+      emailRequired: "Please enter your email address",
+      emailInvalid: "Please enter a valid email address",
+      messageRequired: "Please enter your message"
+    }
+  };
+
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const lang = getCurrentLang();
+    const t = translationsForErrors[lang];
+
+    let isValid = true;
+
+    const name = document.getElementById('name');
+    const email = document.getElementById('email');
+    const message = document.getElementById('message');
+
+    document.getElementById('nameError').textContent = '';
+    document.getElementById('emailError').textContent = '';
+    document.getElementById('messageError').textContent = '';
+
+    if (!name.value.trim()) {
+      document.getElementById('nameError').textContent = t.nameRequired;
+      isValid = false;
+    }
+
+    if (!email.value.trim()) {
+      document.getElementById('emailError').textContent = t.emailRequired;
+      isValid = false;
+    } else if (!email.value.match(/^\S+@\S+\.\S+$/)) {
+      document.getElementById('emailError').textContent = t.emailInvalid;
+      isValid = false;
+    }
+
+    if (!message.value.trim()) {
+      document.getElementById('messageError').textContent = t.messageRequired;
+      isValid = false;
+    }
+
+    if (isValid) {
+      form.reset();
+      document.getElementById('successMessage').style.display = 'block';
+    }
+  });
+</script>
+
+
+
+</body>
+</html>

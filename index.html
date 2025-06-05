@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="seatSelectTitle">座席選択</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="lang.js"></script> <!-- lang.js を読み込み -->
+</head>
+<body>
+
+  <div class="header" data-i18n="home" id="home">ホーム</div>
+
+  <div class="main">
+    <div class="seat-label" data-i18n="seatLabel" id="seatLabel">座席</div>
+    <div>
+      <button class="seat-button" data-seat="左" data-i18n="seatLeft" id="seatLeft">左</button>
+      <button class="seat-button" data-seat="中央" data-i18n="seatCenter" id="seatCenter">中央</button>
+      <button class="seat-button" data-seat="右" data-i18n="seatRight" id="seatRight">右</button>
+    </div>
+    <button id="nextBtn" class="next-button" data-i18n="nextButton" disabled>次へ進む</button>
+  </div>
+
+  <div class="footer">
+    <div class="footer-item" onclick="location.href='index.html'">
+      <img src="https://img.icons8.com/ios-filled/50/000000/home.png" />
+      <span data-i18n="home">ホーム</span>
+    </div>
+    <div class="footer-item" onclick="location.href='request.html'">
+      <img src="https://img.icons8.com/ios-filled/50/000000/message-group.png" />
+      <span data-i18n="request">リクエスト</span>
+    </div>
+    <div class="footer-item" onclick="location.href='settings.html'">
+      <img src="https://img.icons8.com/ios-filled/50/000000/settings.png" />
+      <span data-i18n="settingsTitle">設定</span>
+    </div>
+  </div>
+
+  <script>
+    const seatButtons = document.querySelectorAll('.seat-button');
+    const nextBtn = document.getElementById('nextBtn');
+
+    const storedSeat = localStorage.getItem('selectedSeat');
+    if (storedSeat) {
+      seatButtons.forEach(btn => {
+        if (btn.dataset.seat === storedSeat) {
+          btn.classList.add('selected');
+          nextBtn.disabled = false;
+        }
+      });
+    }
+
+    seatButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        seatButtons.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        localStorage.setItem('selectedSeat', btn.dataset.seat);
+        nextBtn.disabled = false;
+      });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      window.location.href = 'request.html';
+    });
+
+    // 翻訳適用
+    document.addEventListener("DOMContentLoaded", () => {
+      const lang = getCurrentLang();
+      applyTranslation(lang);
+    });
+  </script>
+
+</body>
+</html>

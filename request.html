@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="request">リクエスト</title>
+<link rel="stylesheet" href="style.css">
+  <script src="lang.js"></script>
+</head>
+<body>
+  <div class="header">
+    <span class="back-button" onclick="history.back()">←</span>
+    <span data-i18n="request">リクエスト</span>
+  </div>
+  <div class="main">
+    <div id="buttons">
+      <div class="choice-btn" data-value="hot" data-i18n="hot">暑い</div>
+      <div class="choice-btn" data-value="cold" data-i18n="cold">寒い</div>
+    </div>
+    <button class="detail-button" onclick="toggleDetail()" data-i18n="detailMessage">詳細メッセージ</button>
+    <div class="message-box" id="messageBox">
+      <div style="margin-bottom: 0.5rem;" data-i18n="messageLabel">メッセージ</div>
+      <textarea id="messageText" data-i18n-placeholder="messagePlaceholder" placeholder="例：寒いので温度を上げてほしい"></textarea>
+    </div>
+    <button class="send-btn" id="sendBtn" disabled onclick="sendRequest()" data-i18n="sendRequest">リクエストを送信する</button>
+  </div>
+
+  <div class="footer">
+    <div class="footer-item" onclick="location.href='index.html'">
+      <img src="https://img.icons8.com/ios-filled/50/000000/home.png" />
+      <span data-i18n="home">ホーム</span>
+    </div>
+    <div class="footer-item" onclick="location.href='request.html'">
+      <img src="https://img.icons8.com/ios-filled/50/000000/message-group.png" />
+      <span data-i18n="request">リクエスト</span>
+    </div>
+    <div class="footer-item" onclick="location.href='settings.html'">
+      <img src="https://img.icons8.com/ios-filled/50/000000/settings.png" />
+      <span data-i18n="settingsTitle">設定</span>
+    </div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.choice-btn');
+    const sendBtn = document.getElementById('sendBtn');
+    let selected = null;
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selected = btn.dataset.value;
+        sendBtn.disabled = false;
+      });
+    });
+
+    function toggleDetail() {
+      const box = document.getElementById('messageBox');
+      box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function sendRequest() {
+      const message = document.getElementById('messageText').value;
+      alert(`${getTranslation('sendAlert')}\n${getTranslation('content')}: ${getTranslation(selected)}\n${getTranslation('messageLabel')}: ${message}`);
+    }
+
+    function getTranslation(key) {
+      const lang = getCurrentLang();
+      return translations[lang][key] || key;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      applyTranslation(getCurrentLang());
+    });
+  </script>
+</body>
+</html>

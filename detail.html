@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>詳細</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .header {
+      background-color: black;
+      color: white;
+      padding: 16px;
+      text-align: center;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 16px;
+      top: 16px;
+      font-size: 20px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .main {
+      padding: 20px;
+    }
+
+    .label {
+      background: #ddd;
+      padding: 10px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .send-btn {
+      background-color: red;
+      color: white;
+      padding: 16px;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 20px;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    .send-btn:disabled {
+      background-color: gray;
+      cursor: not-allowed;
+    }
+
+    .send-btn:active {
+      transform: scale(0.98);
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+      border-top: 1px solid #ccc;
+    }
+
+    .footer-item {
+      text-align: center;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 600px) {
+      .send-btn, textarea {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="back-button" onclick="history.back()">&larr;</div>
+    詳細
+  </div>
+
+  <div class="main">
+    <div class="label">メッセージ</div>
+    <textarea id="messageBox" placeholder="要望を入力してください"></textarea>
+    <button id="sendRequestBtn" class="send-btn" disabled>リクエストを送信する</button>
+  </div>
+
+  <div class="footer">
+    <div class="footer-item" onclick="location.href='index.html'">
+      <img src="https://img.icons8.com/ios-filled/50/000000/home.png" alt="ホーム" width="24" />
+      <div>ホーム</div>
+    </div>
+    <div class="footer-item" onclick="location.href='request.html'">
+      <img src="https://img.icons8.com/ios-filled/50/000000/message-group.png" alt="リクエスト" width="24" />
+      <div>リクエスト</div>
+    </div>
+    <div class="footer-item" onclick="location.href='settings.html'">
+      <img src="https://img.icons8.com/ios-filled/50/000000/settings.png" alt="設定" width="24" />
+      <div>設定</div>
+    </div>
+  </div>
+
+  <script>
+    const textarea = document.getElementById('messageBox');
+    const sendBtn = document.getElementById('sendRequestBtn');
+
+    textarea.addEventListener('input', () => {
+      sendBtn.disabled = textarea.value.trim() === "";
+    });
+
+    sendBtn.addEventListener('click', () => {
+      alert(`送信されました: \n${textarea.value}`);
+      textarea.value = "";
+      sendBtn.disabled = true;
+    });
+  </script>
+</body>
+</html>

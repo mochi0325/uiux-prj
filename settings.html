@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>設定</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #f5f5f5;
+      animation: fadeIn 0.4s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .header {
+      background-color: #333;
+      color: white;
+      padding: 12px;
+      text-align: center;
+      font-weight: bold;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      font-size: 20px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .main {
+      padding: 20px;
+    }
+
+    .section {
+      background: white;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 6px;
+    }
+
+    .section label, .section select {
+      font-size: 16px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .section div {
+      cursor: pointer;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fafafa;
+      margin-top: 5px;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid #ccc;
+      padding: 10px 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: white;
+    }
+
+    .footer-item {
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .footer-item img {
+      display: block;
+      margin: 0 auto 4px;
+      width: 24px;
+      height: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="back-button" onclick="location.href='index.html'">←</div>
+    <span id="settingsTitle">設定</span>
+  </div>
+
+  <div class="main">
+    <div class="section">
+      <label id="languageLabel">言語設定</label>
+      <select id="languageSelect">
+        <option value="ja">日本語</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+
+    <div class="section">
+      <div onclick="location.href='form.html'" id="contactButton">お問い合わせ</div>
+    </div>
+
+    <div class="section">
+      <div onclick="alert('アカウント機能は未実装です');" id="accountButton">アカウント</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-item" onclick="location.href='index.html'">
+      <img src="https://img.icons8.com/ios-filled/50/000000/home.png" />
+      <span id="home">ホーム</span>
+    </div>
+    <div class="footer-item" onclick="location.href='request.html'">
+      <img src="https://img.icons8.com/ios-filled/50/000000/message-group.png" />
+      <span id="request">リクエスト</span>
+    </div>
+    <div class="footer-item" onclick="location.href='settings.html'">
+      <img src="https://img.icons8.com/ios-filled/50/000000/settings.png" />
+      <span data-i18n="settingsTitle">設定</span>
+    </div>
+  </div>
+
+  <script src="lang.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const lang = getCurrentLang();
+      applyTranslation(lang);
+      document.documentElement.lang = lang;
+
+      const languageSelect = document.getElementById("languageSelect");
+      languageSelect.value = lang;
+
+      languageSelect.addEventListener("change", () => {
+        const newLang = languageSelect.value;
+        localStorage.setItem("lang", newLang);
+        applyTranslation(newLang);
+        document.documentElement.lang = newLang;
+      });
+    });
+  </script>
+</body>
+</html>
